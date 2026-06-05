@@ -8,18 +8,20 @@ export default function PantallaHistorial() {
     const { db, obtenerTodasLasCitas } = useDatabase();
     const [historial, setHistorial] = useState<Cita[]>([]);
 
-    const cargarHistorial = async () => {
-        if (!db) return;
+    const cargarHistorial = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
         const todas = await obtenerTodasLasCitas();
-        // Filtramos las citas que ya no están pendientes (o fechas pasadas en una app real)
         const pasadas = todas.filter(c => c.estado !== 'pendiente');
         setHistorial(pasadas);
-    };
+    }, [db, obtenerTodasLasCitas]);
 
     useFocusEffect(
         useCallback(() => {
-            cargarHistorial();
-        }, [db])
+            void cargarHistorial();
+        }, [cargarHistorial])
     );
 
     return (

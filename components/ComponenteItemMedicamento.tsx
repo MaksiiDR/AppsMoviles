@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Medicamento } from '../hooks/useDatabase';
+import { theme } from '../constants/theme';
 
 interface Props {
     medicamento: Medicamento;
@@ -68,21 +69,21 @@ export default function ComponenteItemMedicamento({ medicamento, onEdit, onDelet
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.surface,
         padding: 16,
         marginVertical: 6,
         marginHorizontal: 16,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         elevation: 2,
         shadowColor: '#000',
         shadowOpacity: 0.1,
         shadowRadius: 3,
         shadowOffset: { width: 0, height: 1 },
         borderLeftWidth: 4,
-        borderLeftColor: '#2196F3'
+        borderLeftColor: theme.colors.primary
     },
     cardTerminado: {
-        backgroundColor: '#F5F5F5',
+        backgroundColor: theme.colors.surfaceMuted,
         borderLeftColor: '#9E9E9E',
         opacity: 0.85
     },
@@ -93,9 +94,9 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     nombre: {
+        fontFamily: theme.typography.displayMedium,
         fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
+        color: theme.colors.text,
         flex: 1
     },
     badge: {
@@ -106,22 +107,24 @@ const styles = StyleSheet.create({
     badgeText: {
         color: '#fff',
         fontSize: 12,
-        fontWeight: 'bold'
+        fontFamily: theme.typography.bodyBold,
     },
     principio: {
+        fontFamily: theme.typography.bodySemiBold,
         fontSize: 15,
-        color: '#555',
+        color: theme.colors.textMuted,
         marginBottom: 4,
-        fontWeight: '500'
     },
     via: {
+        fontFamily: theme.typography.body,
         fontSize: 14,
-        color: '#666',
+        color: theme.colors.textMuted,
         marginBottom: 8
     },
     obs: {
+        fontFamily: theme.typography.body,
         fontSize: 14,
-        color: '#555',
+        color: theme.colors.textMuted,
         fontStyle: 'italic',
         backgroundColor: '#FFFDE7',
         padding: 6,
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     },
     btnEditText: {
         color: '#1976D2',
-        fontWeight: 'bold'
+        fontFamily: theme.typography.bodyBold,
     },
     btnDelete: {
         flexDirection: 'row',
@@ -153,9 +156,10 @@ const styles = StyleSheet.create({
     },
     btnDeleteText: {
         color: '#D32F2F',
-        fontWeight: 'bold'
+        fontFamily: theme.typography.bodyBold,
     },
     terminadoText: {
+        fontFamily: theme.typography.body,
         fontSize: 12,
         color: '#757575',
         textAlign: 'center',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Cita } from '../hooks/useDatabase';
+import { theme } from '../constants/theme';
 
 interface Props {
     cita: Cita;
@@ -47,13 +48,13 @@ export default function ComponenteItemCita({ cita, onEdit, onDelete, isHistorial
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.surface,
         padding: 15,
         marginVertical: 8,
         marginHorizontal: 16,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: theme.colors.border,
         elevation: 2
     },
     header: {
@@ -62,16 +63,18 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     title: {
-        fontWeight: 'bold',
+        fontFamily: theme.typography.displayMedium,
         fontSize: 16,
+        color: theme.colors.text,
     },
     status: {
-        fontWeight: 'bold',
+        fontFamily: theme.typography.bodyBold,
     },
     info: {
+        fontFamily: theme.typography.body,
         fontSize: 14,
         marginBottom: 4,
-        color: '#333'
+        color: theme.colors.text
     },
     actions: {
         flexDirection: 'row',
@@ -85,13 +88,13 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     btnEdit: {
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.colors.primary,
     },
     btnDelete: {
-        backgroundColor: '#F44336',
+        backgroundColor: theme.colors.danger,
     },
     btnText: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontFamily: theme.typography.bodyBold,
     }
 });

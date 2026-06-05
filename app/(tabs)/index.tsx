@@ -4,8 +4,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import ComponenteFiltroCitas from '../../components/ComponenteFiltroCitas';
 import ComponenteItemCita from '../../components/ComponenteItemCita';
 import { Cita, useDatabase } from '../../hooks/useDatabase';
-import { ServicioFeriadosChile } from '../../services/ServicioFeriadosChile';
-import { ServicioRecordatorios } from '../../services/ServicioRecordatorios';
+import { theme } from '../../constants/theme';
 
 export default function PantallaListaCitas() {
     const { db, obtenerTodasLasCitas, eliminarCita } = useDatabase();
@@ -13,23 +12,25 @@ export default function PantallaListaCitas() {
     const [citasFiltradas, setCitasFiltradas] = useState<Cita[]>([]);
     const router = useRouter();
 
-    const cargarDatos = async () => {
-        if (!db) return;
+    const cargarDatos = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
         const todas = await obtenerTodasLasCitas();
-        // Guardamos TODAS las citas para que los filtros funcionen correctamente
         setCitas(todas);
         setCitasFiltradas(todas);
-    };
+    }, [db, obtenerTodasLasCitas]);
 
     useFocusEffect(
         useCallback(() => {
-            cargarDatos();
-        }, [db])
+            void cargarDatos();
+        }, [cargarDatos])
     );
 
     const handleEliminar = async (id: number) => {
         await eliminarCita(id);
-        cargarDatos();
+        void cargarDatos();
     };
 
     const handleFiltrar = (fechaInicio: string, fechaFin: string, estado: string) => {
@@ -46,11 +47,6 @@ export default function PantallaListaCitas() {
         }
 
         setCitasFiltradas(filtradas);
-    };
-
-    const simularRecordatorio = async (cita: Cita) => {
-        const esFeriado = await ServicioFeriadosChile.esFeriado(cita.fecha);
-        ServicioRecordatorios.generarAlertas(cita.fecha, cita.hora, esFeriado);
     };
 
     return (
@@ -86,12 +82,13 @@ export default function PantallaListaCitas() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: theme.colors.background
     },
     emptyText: {
         textAlign: 'center',
         marginTop: 20,
-        color: '#888'
+        color: theme.colors.textMuted,
+        fontFamily: theme.typography.body
     },
     btnRecordatorio: {
         backgroundColor: '#607D8B',
@@ -109,7 +106,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         right: 20,
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.colors.primary,
         width: 60,
         height: 60,
         borderRadius: 30,
@@ -119,8 +116,8 @@ const styles = StyleSheet.create({
     },
     fabText: {
         color: '#fff',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 30,
-        fontWeight: 'bold',
         lineHeight: 34
     }
 });

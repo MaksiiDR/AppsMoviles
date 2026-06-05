@@ -8,19 +8,22 @@ export default function PantallaHistorialFicha() {
     const { db, obtenerFicha, obtenerHistorialFicha } = useDatabase();
     const [historial, setHistorial] = useState<HistorialFicha[]>([]);
 
+    const cargarDatos = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
+        const ficha = await obtenerFicha();
+        if (ficha) {
+            const data = await obtenerHistorialFicha(ficha.id);
+            setHistorial(data);
+        }
+    }, [db, obtenerFicha, obtenerHistorialFicha]);
+
     useFocusEffect(
         useCallback(() => {
-            const cargarDatos = async () => {
-                if (db) {
-                    const ficha = await obtenerFicha();
-                    if (ficha) {
-                        const data = await obtenerHistorialFicha(ficha.id);
-                        setHistorial(data);
-                    }
-                }
-            };
-            cargarDatos();
-        }, [db])
+            void cargarDatos();
+        }, [cargarDatos])
     );
 
     return (

@@ -3,22 +3,26 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useDatabase, FichaAdultoMayor } from '../../hooks/useDatabase';
 import ComponenteResumenFicha from '../../components/ComponenteResumenFicha';
+import { theme } from '../../constants/theme';
 
 export default function PantallaDashboardFicha() {
     const { db, obtenerFicha } = useDatabase();
     const [ficha, setFicha] = useState<FichaAdultoMayor | null>(null);
     const router = useRouter();
 
+    const cargarFicha = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
+        const data = await obtenerFicha();
+        setFicha(data);
+    }, [db, obtenerFicha]);
+
     useFocusEffect(
         useCallback(() => {
-            const cargarFicha = async () => {
-                if (db) {
-                    const data = await obtenerFicha();
-                    setFicha(data);
-                }
-            };
-            cargarFicha();
-        }, [db])
+            void cargarFicha();
+        }, [cargarFicha])
     );
 
     return (
@@ -53,14 +57,14 @@ export default function PantallaDashboardFicha() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: theme.colors.background,
     },
     headerTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontFamily: theme.typography.display,
+        fontSize: 30,
         textAlign: 'center',
         marginVertical: 20,
-        color: '#212121',
+        color: theme.colors.text,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -69,23 +73,23 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     buttonPrimary: {
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.colors.primary,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         elevation: 2,
     },
     buttonSecondary: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: theme.colors.secondary,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         elevation: 2,
     },
     buttonText: {
         color: '#fff',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 16,
-        fontWeight: 'bold',
         textAlign: 'center'
     },
     emptyContainer: {
@@ -93,8 +97,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     emptyText: {
+        fontFamily: theme.typography.body,
         fontSize: 16,
-        color: '#666',
+        color: theme.colors.textMuted,
         marginBottom: 20,
     }
 });
