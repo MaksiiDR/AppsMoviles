@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface Props {
     onFilter: (fechaInicio: string, fechaFin: string, estado: string) => void;
@@ -9,6 +10,42 @@ export default function ComponenteFiltroCitas({ onFilter }: Props) {
     const [fechaInicio, setFechaInicio] = useState('');
     const [fechaFin, setFechaFin] = useState('');
     const [estado, setEstado] = useState('todos');
+    const [mostrarPickerInicio, setMostrarPickerInicio] = useState(false);
+    const [mostrarPickerFin, setMostrarPickerFin] = useState(false);
+
+    const formatearFecha = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = `${date.getMonth() + 1}`.padStart(2, '0');
+        const day = `${date.getDate()}`.padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const fechaDesdeTexto = (valor: string): Date => {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(valor);
+        if (!match) {
+            return new Date();
+        }
+
+        return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    };
+
+    const onChangeFechaInicio = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (Platform.OS !== 'ios') {
+            setMostrarPickerInicio(false);
+        }
+        if (event.type === 'set' && selectedDate) {
+            setFechaInicio(formatearFecha(selectedDate));
+        }
+    };
+
+    const onChangeFechaFin = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (Platform.OS !== 'ios') {
+            setMostrarPickerFin(false);
+        }
+        if (event.type === 'set' && selectedDate) {
+            setFechaFin(formatearFecha(selectedDate));
+        }
+    };
 
     const aplicarFiltro = () => {
         onFilter(fechaInicio, fechaFin, estado);
@@ -26,19 +63,35 @@ export default function ComponenteFiltroCitas({ onFilter }: Props) {
             <Text style={styles.title}>Filtros</Text>
 
             <View style={styles.row}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Desde YYYY-MM-DD"
-                    value={fechaInicio}
-                    onChangeText={setFechaInicio}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Hasta YYYY-MM-DD"
-                    value={fechaFin}
-                    onChangeText={setFechaFin}
-                />
+                <TouchableOpacity style={styles.input} onPress={() => setMostrarPickerInicio(true)}>
+                    <Text style={fechaInicio ? styles.inputText : styles.inputPlaceholder}>
+                        {fechaInicio || 'Desde'}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.input} onPress={() => setMostrarPickerFin(true)}>
+                    <Text style={fechaFin ? styles.inputText : styles.inputPlaceholder}>
+                        {fechaFin || 'Hasta'}
+                    </Text>
+                </TouchableOpacity>
             </View>
+
+            {mostrarPickerInicio && (
+                <DateTimePicker
+                    value={fechaInicio ? fechaDesdeTexto(fechaInicio) : new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onChangeFechaInicio}
+                />
+            )}
+
+            {mostrarPickerFin && (
+                <DateTimePicker
+                    value={fechaFin ? fechaDesdeTexto(fechaFin) : new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onChangeFechaFin}
+                />
+            )}
 
             <View style={styles.row}>
                 <TouchableOpacity
@@ -103,6 +156,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 8,
         borderRadius: 4
+    },
+    inputText: {
+        color: '#222'
+    },
+    inputPlaceholder: {
+        color: '#888'
     },
     chip: {
         paddingHorizontal: 10,

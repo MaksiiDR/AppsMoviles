@@ -1,5 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import { validarRUT } from '../utils/validadorRut';
 
 export interface Cita {
@@ -51,8 +52,7 @@ export interface Medicamento {
     fechaUltimaModificacion: string;
 }
 
-const conectarDB = async (): Promise<SQLite.SQLiteDatabase | null> => {
-    const db = await SQLite.openDatabaseAsync('citasMedicasDB');
+const inicializarEsquema = async (db: SQLite.SQLiteDatabase): Promise<void> => {
     await db.execAsync(
         `CREATE TABLE IF NOT EXISTS cita (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -106,9 +106,31 @@ const conectarDB = async (): Promise<SQLite.SQLiteDatabase | null> => {
     if (!hasCambios) {
         await db.execAsync('ALTER TABLE historial_ficha ADD COLUMN cambios TEXT;');
     }
+};
 
+const abrirConEsquema = async (databaseName: string): Promise<SQLite.SQLiteDatabase> => {
+    const db = await SQLite.openDatabaseAsync(databaseName);
+    await inicializarEsquema(db);
     return db;
-}
+};
+
+const conectarDB = async (): Promise<SQLite.SQLiteDatabase | null> => {
+    try {
+        return await abrirConEsquema('citasMedicasDB');
+    } catch (primaryError) {
+        if (Platform.OS === 'web') {
+            console.warn('SQLite persistente no disponible en web. Usando base en memoria como fallback.');
+            try {
+                return await abrirConEsquema(':memory:');
+            } catch (memoryError) {
+                console.error('Fallo tambien la base en memoria:', memoryError);
+                throw memoryError;
+            }
+        }
+
+        throw primaryError;
+    }
+};
 
 let globalDbPromise: Promise<SQLite.SQLiteDatabase | null> | null = null;
 let globalDb: SQLite.SQLiteDatabase | null = null;

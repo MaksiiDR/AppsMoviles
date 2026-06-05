@@ -4,6 +4,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { Alert, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDatabase } from '../hooks/useDatabase';
 import { ServicioFeriadosChile } from '../services/ServicioFeriadosChile';
+import { theme } from '../constants/theme';
 
 const OpcionesSeleccion = ({ opciones, valorActual, onChange }: { opciones: string[], valorActual: string, onChange: (val: string) => void }) => (
     <View style={styles.opcionesContainer}>
@@ -241,36 +242,42 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff'
+        backgroundColor: theme.colors.background
     },
     title: {
+        fontFamily: theme.typography.display,
         fontSize: 22,
-        fontWeight: 'bold',
+        color: theme.colors.text,
         marginBottom: 20
     },
     label: {
-        fontWeight: 'bold',
+        fontFamily: theme.typography.bodyBold,
+        color: theme.colors.text,
         marginTop: 10,
         marginBottom: 5
     },
     input: {
+        fontFamily: theme.typography.body,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.colors.border,
         padding: 10,
-        borderRadius: 4
+        borderRadius: theme.radius.sm,
+        backgroundColor: theme.colors.surface,
     },
     pickerTrigger: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.colors.border,
         padding: 12,
-        borderRadius: 4,
-        backgroundColor: '#fff'
+        borderRadius: theme.radius.sm,
+        backgroundColor: theme.colors.surface,
     },
     pickerValue: {
-        color: '#222'
+        fontFamily: theme.typography.body,
+        color: theme.colors.text,
     },
     pickerPlaceholder: {
-        color: '#888'
+        fontFamily: theme.typography.body,
+        color: theme.colors.textMuted,
     },
     opcionesContainer: {
         flexDirection: 'row',
@@ -283,29 +290,31 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#2196F3',
-        backgroundColor: '#fff'
+        borderColor: theme.colors.primary,
+        backgroundColor: theme.colors.surface,
     },
     chipActive: {
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.colors.primary,
     },
     chipText: {
-        color: '#2196F3',
+        fontFamily: theme.typography.bodySemiBold,
+        color: theme.colors.primary,
     },
     chipTextActive: {
+        fontFamily: theme.typography.bodySemiBold,
         color: '#fff',
     },
     btnSave: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: theme.colors.secondary,
         padding: 15,
-        borderRadius: 4,
+        borderRadius: theme.radius.sm,
         alignItems: 'center',
         marginTop: 30,
         marginBottom: 50
     },
     btnSaveText: {
         color: '#fff',
-        fontWeight: 'bold',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 16
     }
 });

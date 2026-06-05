@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useDatabase, FichaAdultoMayor } from '../hooks/useDatabase';
 import ComponenteContactoEmergencia from '../components/ComponenteContactoEmergencia';
+import { theme } from '../constants/theme';
 
 export default function PantallaFichaCompleta() {
     const { db, obtenerFicha } = useDatabase();
@@ -72,7 +73,7 @@ export default function PantallaFichaCompleta() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.background,
         padding: 16,
     },
     centerContainer: {
@@ -84,42 +85,44 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingBottom: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#EEE',
+        borderBottomColor: theme.colors.border,
     },
     title: {
+        fontFamily: theme.typography.display,
         fontSize: 26,
-        fontWeight: 'bold',
-        color: '#222',
+        color: theme.colors.text,
     },
     subtitle: {
+        fontFamily: theme.typography.body,
         fontSize: 16,
-        color: '#666',
+        color: theme.colors.textMuted,
         marginTop: 4,
     },
     section: {
         marginBottom: 20,
-        backgroundColor: '#F9F9F9',
+        backgroundColor: theme.colors.surface,
         padding: 14,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         borderWidth: 1,
-        borderColor: '#E0E0E0'
+        borderColor: theme.colors.border
     },
     sectionTitle: {
+        fontFamily: theme.typography.displayMedium,
         fontSize: 18,
-        fontWeight: 'bold',
-        color: '#444',
+        color: theme.colors.text,
         marginBottom: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#CCC',
+        borderBottomColor: theme.colors.border,
         paddingBottom: 4
     },
     label: {
-        fontWeight: 'bold',
-        color: '#555'
+        fontFamily: theme.typography.bodyBold,
+        color: theme.colors.textMuted,
     },
     text: {
+        fontFamily: theme.typography.body,
         fontSize: 15,
-        color: '#333',
+        color: theme.colors.text,
         marginBottom: 6,
         lineHeight: 22
     },
@@ -129,27 +132,28 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     updateText: {
-        color: '#888',
+        fontFamily: theme.typography.body,
+        color: theme.colors.textMuted,
         fontSize: 13,
         fontStyle: 'italic'
     },
     historyBtn: {
-        backgroundColor: '#607D8B',
+        backgroundColor: theme.colors.primary,
         padding: 14,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         marginBottom: 10,
         alignItems: 'center'
     },
     editBtn: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: theme.colors.secondary,
         padding: 14,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         marginBottom: 40,
         alignItems: 'center'
     },
     btnText: {
         color: '#FFF',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 16,
-        fontWeight: 'bold'
     }
 });
