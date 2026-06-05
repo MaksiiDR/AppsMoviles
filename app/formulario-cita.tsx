@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { Alert, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDatabase } from '../hooks/useDatabase';
 import { ServicioFeriadosChile } from '../services/ServicioFeriadosChile';
 
@@ -32,12 +33,51 @@ export default function PantallaFormularioCita() {
     const [establecimiento, setEstablecimiento] = useState('');
     const [tipoAtencion, setTipoAtencion] = useState('pública');
     const [estado, setEstado] = useState('pendiente');
+    const [mostrarPickerFecha, setMostrarPickerFecha] = useState(false);
+    const [mostrarPickerHora, setMostrarPickerHora] = useState(false);
 
     const esEdicion = !!id;
 
+    const formatearFecha = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = `${date.getMonth() + 1}`.padStart(2, '0');
+        const day = `${date.getDate()}`.padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const formatearHora = (date: Date): string => {
+        const hh = `${date.getHours()}`.padStart(2, '0');
+        const mm = `${date.getMinutes()}`.padStart(2, '0');
+        return `${hh}:${mm}`;
+    };
+
+    const fechaDesdeTexto = (valor: string): Date => {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(valor);
+        if (!match) {
+            return new Date();
+        }
+
+        const year = Number(match[1]);
+        const month = Number(match[2]) - 1;
+        const day = Number(match[3]);
+        return new Date(year, month, day);
+    };
+
+    const horaDesdeTexto = (valor: string): Date => {
+        const ahora = new Date();
+        const match = /^(\d{2}):(\d{2})$/.exec(valor);
+        if (!match) {
+            return ahora;
+        }
+
+        const date = new Date();
+        date.setHours(Number(match[1]), Number(match[2]), 0, 0);
+        return date;
+    };
+
     useEffect(() => {
         if (esEdicion && db) {
-            obtenerCitaPorId(Number(id)).then(cita => {
+            void obtenerCitaPorId(Number(id)).then(cita => {
                 if (cita) {
                     setProfesional(cita.profesional);
                     setTipoCita(cita.tipoCita);
@@ -49,7 +89,27 @@ export default function PantallaFormularioCita() {
                 }
             });
         }
-    }, [id, db]);
+    }, [db, esEdicion, id, obtenerCitaPorId]);
+
+    const onChangeFecha = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (Platform.OS !== 'ios') {
+            setMostrarPickerFecha(false);
+        }
+
+        if (event.type === 'set' && selectedDate) {
+            setFecha(formatearFecha(selectedDate));
+        }
+    };
+
+    const onChangeHora = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (Platform.OS !== 'ios') {
+            setMostrarPickerHora(false);
+        }
+
+        if (event.type === 'set' && selectedDate) {
+            setHora(formatearHora(selectedDate));
+        }
+    };
 
     const validarYGuardar = async () => {
         if (!profesional || !tipoCita || !fecha || !hora || !establecimiento || !tipoAtencion || !estado) {
@@ -115,11 +175,38 @@ export default function PantallaFormularioCita() {
                 onChange={setTipoCita}
             />
 
-            <Text style={styles.label}>Fecha (YYYY-MM-DD)</Text>
-            <TextInput style={styles.input} value={fecha} onChangeText={setFecha} placeholder="2026-09-18" />
+            <Text style={styles.label}>Fecha</Text>
+            <TouchableOpacity style={styles.pickerTrigger} onPress={() => setMostrarPickerFecha(true)}>
+                <Text style={fecha ? styles.pickerValue : styles.pickerPlaceholder}>
+                    {fecha || 'Seleccionar fecha'}
+                </Text>
+            </TouchableOpacity>
 
-            <Text style={styles.label}>Hora (HH:MM)</Text>
-            <TextInput style={styles.input} value={hora} onChangeText={setHora} placeholder="10:00" />
+            {mostrarPickerFecha && (
+                <DateTimePicker
+                    value={fecha ? fechaDesdeTexto(fecha) : new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onChangeFecha}
+                />
+            )}
+
+            <Text style={styles.label}>Hora</Text>
+            <TouchableOpacity style={styles.pickerTrigger} onPress={() => setMostrarPickerHora(true)}>
+                <Text style={hora ? styles.pickerValue : styles.pickerPlaceholder}>
+                    {hora || 'Seleccionar hora'}
+                </Text>
+            </TouchableOpacity>
+
+            {mostrarPickerHora && (
+                <DateTimePicker
+                    value={hora ? horaDesdeTexto(hora) : new Date()}
+                    mode="time"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeHora}
+                />
+            )}
 
             <Text style={styles.label}>Establecimiento de Salud</Text>
             <TextInput style={styles.input} value={establecimiento} onChangeText={setEstablecimiento} />
@@ -171,6 +258,19 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         padding: 10,
         borderRadius: 4
+    },
+    pickerTrigger: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 12,
+        borderRadius: 4,
+        backgroundColor: '#fff'
+    },
+    pickerValue: {
+        color: '#222'
+    },
+    pickerPlaceholder: {
+        color: '#888'
     },
     opcionesContainer: {
         flexDirection: 'row',

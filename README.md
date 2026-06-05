@@ -1,50 +1,131 @@
-# Welcome to your Expo app 👋
+# CuidaMed
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+CuidaMed es una aplicación móvil desarrollada con Expo y React Native para apoyar la gestión básica de salud de un adulto mayor. El proyecto se orienta a una evaluación académica donde se exige implementar funcionalidades visibles, navegación entre pantallas, persistencia local y una presentación coherente del código y del producto.
 
-## Get started
+## Propósito
 
-1. Install dependencies
+La aplicación concentra en un solo lugar la información más relevante para el seguimiento de un paciente adulto mayor:
 
-   ```bash
-   npm install
-   ```
+- ficha médica general
+- citas médicas
+- medicamentos activos, suspendidos o terminados
+- historial de cambios y tratamientos
 
-2. Start the app
+El enfoque del proyecto es offline-first. La información principal queda persistida localmente con SQLite para que la app pueda demostrarse sin depender de un backend propio.
 
-   ```bash
-   npx expo start
-   ```
+## Funcionalidades principales
 
-In the output, you'll find options to open the app in a
+### 1. Gestión de ficha del adulto mayor
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Permite crear, visualizar y actualizar una ficha con datos personales, condición actual, enfermedades crónicas, alergias, antecedentes quirúrgicos, médico tratante y contactos de emergencia.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 2. Gestión de citas médicas
 
-## Get a fresh project
+Permite registrar, editar y eliminar citas. Incluye filtros por rango de fechas y estado, además de validación de fechas feriadas mediante un servicio externo.
 
-When you're ready, run:
+### 3. Gestión de medicamentos
+
+Permite registrar, editar y eliminar medicamentos. Los medicamentos terminados pasan a un estado de solo lectura y pueden considerarse parte del historial clínico.
+
+### 4. Historial médico
+
+Permite revisar cambios realizados sobre la ficha y consultar citas anteriores o tratamientos ya registrados.
+
+## Tecnologías usadas
+
+- Expo 54
+- React Native 0.81
+- React 19
+- TypeScript
+- Expo Router para navegación basada en archivos
+- Expo SQLite para persistencia local
+- Expo Font y Google Fonts para tipografía personalizada
+- Vitest para pruebas unitarias
+
+## Estructura del proyecto
+
+- `app/`: pantallas principales y rutas manejadas por Expo Router.
+- `components/`: componentes reutilizables para tarjetas, filtros y bloques de información.
+- `hooks/`: lógica compartida, especialmente acceso a la base de datos local.
+- `services/`: servicios auxiliares como consulta de feriados y recordatorios simulados.
+- `utils/`: utilidades puras, como la validación del RUT.
+- `tests/`: pruebas unitarias.
+- `constants/`: tema visual compartido.
+
+## Persistencia local
+
+La app utiliza SQLite local para guardar la información principal. Las tablas creadas son:
+
+- `cita`
+- `ficha_adulto_mayor`
+- `historial_ficha`
+- `medicamento`
+
+Además, el proyecto inserta datos de ejemplo para facilitar la demostración durante la evaluación.
+
+## Navegación
+
+La navegación combina un `Stack` raíz con un conjunto de tabs:
+
+- Adulto Mayor
+- Medicamentos
+- Citas
+- Historial
+
+Desde esas tabs se accede a pantallas de detalle y formularios de edición.
+
+## Requisitos
+
+- Node.js 20 o superior recomendado
+- npm
+- Expo Go o emulador Android/iOS para pruebas de ejecución
+
+## Instalación
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Ejecución
 
-## Learn more
+```bash
+npm start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+También están disponibles:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm run android
+npm run ios
+npm run web
+```
 
-## Join the community
+## Verificación del proyecto
 
-Join our community of developers creating universal apps.
+Lint:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm run lint
+```
+
+Pruebas:
+
+```bash
+npm test
+```
+
+## Consideraciones de la evaluación
+
+Este repositorio fue ajustado para que la evidencia técnica sea coherente con la pauta:
+
+- funcionalidades claramente diferenciadas
+- navegación entre pantallas
+- persistencia local con SQLite
+- uso de al menos dos familias tipográficas reales
+- documentación para explicar el código y la arquitectura
+
+## Documentación complementaria
+
+- `DOCUMENTO_DEFENSA_REPOSITORIO.md`: guía para explicar el proyecto y el código.
+- `CHECKLIST_DEFENSA.md`: verificación rápida contra la pauta.
+- `AGENTS.md`: resumen técnico de decisiones del repositorio.

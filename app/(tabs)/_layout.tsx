@@ -1,9 +1,33 @@
 import { Tabs } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { theme } from '../../constants/theme';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.textMuted,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.border,
+          height: 64,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarLabelStyle: {
+          fontFamily: theme.typography.bodySemiBold,
+          fontSize: 12,
+        },
+        headerStyle: {
+          backgroundColor: theme.colors.surface,
+        },
+        headerTitleStyle: {
+          fontFamily: theme.typography.displayMedium,
+          color: theme.colors.text,
+        },
+      }}
+    >
       <Tabs.Screen
         name="ficha"
         options={{

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FichaAdultoMayor } from '../hooks/useDatabase';
+import { theme } from '../constants/theme';
 
 interface Props {
     ficha: FichaAdultoMayor;
@@ -36,13 +37,13 @@ export default function ComponenteResumenFicha({ ficha }: Props) {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.surface,
         padding: 16,
         marginVertical: 8,
         marginHorizontal: 16,
-        borderRadius: 8,
+        borderRadius: theme.radius.md,
         borderLeftWidth: 5,
-        borderLeftColor: '#4CAF50',
+        borderLeftColor: theme.colors.secondary,
         elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -50,20 +51,21 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
     },
     title: {
+        fontFamily: theme.typography.displayMedium,
         fontSize: 18,
-        fontWeight: 'bold',
         marginBottom: 10,
-        color: '#333'
+        color: theme.colors.text,
     },
     label: {
+        fontFamily: theme.typography.bodyBold,
         fontSize: 14,
-        fontWeight: 'bold',
-        color: '#555',
+        color: theme.colors.textMuted,
         marginTop: 5
     },
     text: {
+        fontFamily: theme.typography.body,
         fontSize: 14,
-        color: '#444',
+        color: theme.colors.text,
         marginBottom: 5
     },
     alertBox: {
@@ -76,13 +78,14 @@ const styles = StyleSheet.create({
     },
     alertText: {
         color: '#C62828',
-        fontWeight: 'bold',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 13,
         textAlign: 'center'
     },
     updateText: {
+        fontFamily: theme.typography.body,
         fontSize: 12,
-        color: '#999',
+        color: theme.colors.textMuted,
         marginTop: 10,
         textAlign: 'right'
     }

@@ -9,16 +9,19 @@ export default function PantallaFichaCompleta() {
     const [ficha, setFicha] = useState<FichaAdultoMayor | null>(null);
     const router = useRouter();
 
+    const cargarFicha = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
+        const data = await obtenerFicha();
+        setFicha(data);
+    }, [db, obtenerFicha]);
+
     useFocusEffect(
         useCallback(() => {
-            const cargarFicha = async () => {
-                if (db) {
-                    const data = await obtenerFicha();
-                    setFicha(data);
-                }
-            };
-            cargarFicha();
-        }, [db])
+            void cargarFicha();
+        }, [cargarFicha])
     );
 
     if (!ficha) {

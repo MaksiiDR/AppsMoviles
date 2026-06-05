@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useDatabase } from '../hooks/useDatabase';
 import { validarRUT } from '../utils/validadorRut';
@@ -42,8 +42,8 @@ export default function PantallaFormularioFicha() {
                 }
             }
         };
-        cargarDatos();
-    }, [db]);
+        void cargarDatos();
+    }, [db, obtenerFicha]);
 
     // Validación de RUT se hace externamente
     const handleGuardar = async () => {

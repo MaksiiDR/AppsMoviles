@@ -3,6 +3,13 @@ import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert 
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useDatabase } from '../hooks/useDatabase';
 
+interface OptionButtonProps {
+    label: string;
+    selected: boolean;
+    onPress: () => void;
+    disabled: boolean;
+}
+
 export default function PantallaFormularioMedicamento() {
     const { db, obtenerMedicamentoPorId, guardarMedicamento } = useDatabase();
     const router = useRouter();
@@ -35,8 +42,8 @@ export default function PantallaFormularioMedicamento() {
                 }
             }
         };
-        cargarDatos();
-    }, [db, medicamentoId]);
+        void cargarDatos();
+    }, [db, medicamentoId, obtenerMedicamentoPorId]);
 
     const handleGuardar = async () => {
         if (!nombreComercial.trim()) {
@@ -74,7 +81,7 @@ export default function PantallaFormularioMedicamento() {
     };
 
     // Componente simple para los botones de selección
-    const OptionButton = ({ label, selected, onPress, disabled }: any) => (
+    const OptionButton = ({ label, selected, onPress, disabled }: OptionButtonProps) => (
         <TouchableOpacity
             style={[
                 styles.optionBtn,

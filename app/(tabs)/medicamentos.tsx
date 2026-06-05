@@ -4,6 +4,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useDatabase, Medicamento } from '../../hooks/useDatabase';
 import ComponenteItemMedicamento from '../../components/ComponenteItemMedicamento';
 import ComponenteFiltroEstado from '../../components/ComponenteFiltroEstado';
+import { theme } from '../../constants/theme';
 
 export default function PantallaListaMedicamentos() {
     const { db, obtenerMedicamentos, eliminarMedicamento } = useDatabase();
@@ -11,21 +12,24 @@ export default function PantallaListaMedicamentos() {
     const [filtro, setFiltro] = useState('Todos');
     const router = useRouter();
 
-    const cargarDatos = async () => {
-        if (!db) return;
+    const cargarDatos = useCallback(async () => {
+        if (!db) {
+            return;
+        }
+
         const data = await obtenerMedicamentos(filtro);
         setMedicamentos(data);
-    };
+    }, [db, filtro, obtenerMedicamentos]);
 
     useFocusEffect(
         useCallback(() => {
-            cargarDatos();
-        }, [db, filtro])
+            void cargarDatos();
+        }, [cargarDatos])
     );
 
     const handleEliminar = async (id: number) => {
         await eliminarMedicamento(id);
-        cargarDatos();
+        void cargarDatos();
     };
 
     return (
@@ -59,19 +63,20 @@ export default function PantallaListaMedicamentos() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5'
+        backgroundColor: theme.colors.background
     },
     emptyText: {
         textAlign: 'center',
         marginTop: 40,
-        color: '#888',
+        color: theme.colors.textMuted,
+        fontFamily: theme.typography.body,
         fontSize: 16
     },
     fab: {
         position: 'absolute',
         bottom: 20,
         right: 20,
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.colors.primary,
         width: 60,
         height: 60,
         borderRadius: 30,
@@ -85,8 +90,8 @@ const styles = StyleSheet.create({
     },
     fabText: {
         color: '#fff',
+        fontFamily: theme.typography.bodyBold,
         fontSize: 32,
-        fontWeight: 'bold',
         lineHeight: 36
     }
 });
