@@ -84,11 +84,13 @@ const styles = StyleSheet.create({
         borderBottomColor: '#EEE',
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 26,
         fontWeight: 'bold',
         color: '#222',
     },
     subtitle: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
         fontSize: 16,
         color: '#666',
         marginTop: 4,
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
         borderColor: '#E0E0E0'
     },
     sectionTitle: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 18,
         fontWeight: 'bold',
         color: '#444',
@@ -111,10 +114,12 @@ const styles = StyleSheet.create({
         paddingBottom: 4
     },
     label: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontWeight: 'bold',
         color: '#555'
     },
     text: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 15,
         color: '#333',
         marginBottom: 6,
@@ -126,6 +131,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     updateText: {
+    fontFamily: 'SourceSans3_400Regular',
         color: '#888',
         fontSize: 13,
         fontStyle: 'italic'
@@ -145,6 +151,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     btnText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#FFF',
         fontSize: 16,
         fontWeight: 'bold'

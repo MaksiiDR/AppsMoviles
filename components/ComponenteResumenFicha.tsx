@@ -50,18 +50,21 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#333'
     },
     label: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 14,
         fontWeight: 'bold',
         color: '#555',
         marginTop: 5
     },
     text: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 14,
         color: '#444',
         marginBottom: 5
@@ -75,12 +78,14 @@ const styles = StyleSheet.create({
         borderColor: '#EF9A9A'
     },
     alertText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#C62828',
         fontWeight: 'bold',
         fontSize: 13,
         textAlign: 'center'
     },
     updateText: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 12,
         color: '#999',
         marginTop: 10,

@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#eee'
     },
     label: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 14,
         fontWeight: 'bold',
         marginLeft: 16,
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
         borderColor: '#1976D2'
     },
     chipText: {
+    fontFamily: 'SourceSans3_400Regular',
         color: '#666',
         fontWeight: '500'
     },

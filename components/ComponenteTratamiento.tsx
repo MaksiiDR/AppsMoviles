@@ -55,11 +55,13 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     date: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 13,
         color: '#666',
         fontWeight: 'bold'
     },
     action: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 12,
         backgroundColor: '#E8EAF6',
         color: '#3F51B5',
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     user: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 13,
         color: '#888',
         marginBottom: 8
@@ -82,11 +85,13 @@ const styles = StyleSheet.create({
         borderColor: '#EEE'
     },
     label: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 13,
         fontWeight: 'bold',
         color: '#444'
     },
     text: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 14,
         color: '#222',
         marginTop: 2

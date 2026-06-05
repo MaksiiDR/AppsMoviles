@@ -3,7 +3,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+    <Tabs screenOptions={{ 
+      tabBarActiveTintColor: 'blue',
+      headerTitleStyle: { fontFamily: 'CormorantGaramond_700Bold', fontSize: 24 },
+      tabBarLabelStyle: { fontFamily: 'SourceSans3_600SemiBold', fontSize: 12 }
+    }}>
       <Tabs.Screen
         name="ficha"
         options={{

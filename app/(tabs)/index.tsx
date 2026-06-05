@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     emptyText: {
+    fontFamily: 'SourceSans3_400Regular',
         textAlign: 'center',
         marginTop: 20,
         color: '#888'

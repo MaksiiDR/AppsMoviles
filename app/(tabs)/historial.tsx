@@ -44,12 +44,14 @@ const styles = StyleSheet.create({
         padding: 10
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
         textAlign: 'center'
     },
     emptyText: {
+    fontFamily: 'SourceSans3_400Regular',
         textAlign: 'center',
         marginTop: 20,
         color: '#888'

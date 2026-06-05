@@ -62,13 +62,16 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontWeight: 'bold',
         fontSize: 16,
     },
     status: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontWeight: 'bold',
     },
     info: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 14,
         marginBottom: 4,
         color: '#333'
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F44336',
     },
     btnText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#fff',
         fontWeight: 'bold'
     }

@@ -24,12 +24,14 @@ const styles = StyleSheet.create({
         borderColor: '#90CAF9'
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 16,
         fontWeight: 'bold',
         color: '#1565C0',
         marginBottom: 4
     },
     text: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 16,
         color: '#333'
     }

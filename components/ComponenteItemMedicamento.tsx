@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     nombre: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 18,
         fontWeight: 'bold',
         color: '#333',
@@ -104,22 +105,26 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     badgeText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#fff',
         fontSize: 12,
         fontWeight: 'bold'
     },
     principio: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 15,
         color: '#555',
         marginBottom: 4,
         fontWeight: '500'
     },
     via: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 14,
         color: '#666',
         marginBottom: 8
     },
     obs: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 14,
         color: '#555',
         fontStyle: 'italic',
@@ -143,6 +148,7 @@ const styles = StyleSheet.create({
         padding: 4
     },
     btnEditText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#1976D2',
         fontWeight: 'bold'
     },
@@ -152,10 +158,12 @@ const styles = StyleSheet.create({
         padding: 4
     },
     btnDeleteText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#D32F2F',
         fontWeight: 'bold'
     },
     terminadoText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontSize: 12,
         color: '#757575',
         textAlign: 'center',

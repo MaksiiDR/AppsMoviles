@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
     },
     headerTitle: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     buttonText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
@@ -93,6 +95,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     emptyText: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 16,
         color: '#666',
         marginBottom: 20,

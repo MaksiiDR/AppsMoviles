@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
         color: '#333'
     },
     sectionTitle: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 16,
         fontWeight: 'bold',
         marginTop: 10,
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
         paddingBottom: 4
     },
     input: {
+    fontFamily: 'SourceSans3_400Regular',
         borderWidth: 1,
         borderColor: '#CCC',
         borderRadius: 6,
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top'
     },
     helpText: {
+    fontFamily: 'SourceSans3_400Regular',
         fontSize: 12,
         color: '#888',
         marginBottom: 10,
@@ -172,6 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     saveBtnText: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#FFF',
         fontSize: 16,
         fontWeight: 'bold'

@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -52,12 +53,14 @@ const styles = StyleSheet.create({
         color: '#212121',
     },
     subtitle: {
+    fontFamily: 'CormorantGaramond_600SemiBold',
         fontSize: 14,
         textAlign: 'center',
         color: '#666',
         marginBottom: 20,
     },
     emptyText: {
+    fontFamily: 'SourceSans3_400Regular',
         textAlign: 'center',
         marginTop: 40,
         color: '#888',

@@ -157,16 +157,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     title: {
+    fontFamily: 'CormorantGaramond_700Bold',
         fontSize: 22,
         fontWeight: 'bold',
         marginBottom: 20
     },
     label: {
+    fontFamily: 'SourceSans3_600SemiBold',
         fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 5
     },
     input: {
+    fontFamily: 'SourceSans3_400Regular',
         borderWidth: 1,
         borderColor: '#ccc',
         padding: 10,
@@ -190,9 +193,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#2196F3',
     },
     chipText: {
+    fontFamily: 'SourceSans3_400Regular',
         color: '#2196F3',
     },
     chipTextActive: {
+    fontFamily: 'SourceSans3_600SemiBold',
         color: '#fff',
     },
     btnSave: {
