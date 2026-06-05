@@ -1,9 +1,9 @@
-import { Tabs } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ 
+    <Tabs screenOptions={{
       tabBarActiveTintColor: 'blue',
       headerTitleStyle: { fontFamily: 'CormorantGaramond_700Bold', fontSize: 24 },
       tabBarLabelStyle: { fontFamily: 'SourceSans3_600SemiBold', fontSize: 12 }
