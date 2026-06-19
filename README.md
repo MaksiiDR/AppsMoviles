@@ -2,7 +2,29 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+---
+
+## 🐳 Cómo evaluar el proyecto con Docker (Instrucciones para el Profesor)
+
+Para probar la aplicación dockerizada de forma sencilla, por favor sigue estos pasos:
+
+1. **Instalar Docker:** Asegúrate de tener instalado [Docker Desktop](https://www.docker.com/products/docker-desktop/) en tu computadora y que la aplicación esté abierta corriendo de fondo.
+2. **Descargar la imagen:** Abre una terminal (CMD o PowerShell) y ejecuta el siguiente comando para descargar la imagen oficial desde Docker Hub:
+   ```bash
+   docker pull patodock3r/cuidamed
+   ```
+3. **Ejecutar el contenedor:** Una vez descargada, ejecuta este comando para levantar el servidor:
+   ```bash
+   docker run -it -p 8081:8081 patodock3r/cuidamed
+   ```
+
+> **Nota importante:** El contenedor está configurado con Expo en modo `--tunnel`. Cuando termine de iniciar, aparecerá un **Código QR** en tu terminal. Simplemente escanéalo con la aplicación **Expo Go** desde tu dispositivo móvil (iOS/Android) para interactuar con la App.
+
+🔗 **Enlace Oficial a Docker Hub:** [https://hub.docker.com/r/patodock3r/cuidamed](https://hub.docker.com/r/patodock3r/cuidamed)
+
+---
+
+## Get started (Desarrollo Local Tradicional)
 
 1. Install dependencies
 
