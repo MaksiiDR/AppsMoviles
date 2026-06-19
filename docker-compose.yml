@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      # Si tienes problemas conectándote desde tu teléfono, descomenta y pon tu IP local de la PC aquí:
+      # - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.100
+      - CHOKIDAR_USEPOLLING=true # Ayuda a detectar cambios de archivos en Windows/Mac
+    volumes:
+      - .:/app
+      - /app/node_modules # Evita sobreescribir el node_modules del contenedor con el local
+    command: npm start

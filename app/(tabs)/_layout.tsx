@@ -1,0 +1,48 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+
+export default function TabLayout() {
+  return (
+    <Tabs screenOptions={{
+      tabBarActiveTintColor: 'blue',
+      headerTitleStyle: { fontFamily: 'CormorantGaramond_700Bold', fontSize: 24 },
+      tabBarLabelStyle: { fontFamily: 'SourceSans3_600SemiBold', fontSize: 12 }
+    }}>
+      <Tabs.Screen
+        name="ficha"
+        options={{
+          title: 'Adulto Mayor',
+          tabBarIcon: ({ color }) => <MaterialIcons name="person" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="medicamentos"
+        options={{
+          title: 'Medicamentos',
+          tabBarIcon: ({ color }) => <MaterialIcons name="medical-services" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="alimentacion"
+        options={{
+          title: 'Alimentación',
+          tabBarIcon: ({ color }) => <MaterialIcons name="restaurant" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Citas',
+          tabBarIcon: ({ color }) => <MaterialIcons name="event" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="historial"
+        options={{
+          title: 'Historial',
+          tabBarIcon: ({ color }) => <MaterialIcons name="history" size={24} color={color} />,
+        }}
+      />
+    </Tabs>
+  );
+}
