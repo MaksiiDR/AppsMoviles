@@ -4,7 +4,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ---
 
-## 🐳 Cómo evaluar el proyecto con Docker (Instrucciones para el Profesor)
+## 🐳 Proyecto con Docker
 
 Para probar la aplicación dockerizada de forma sencilla, por favor sigue estos pasos:
 
