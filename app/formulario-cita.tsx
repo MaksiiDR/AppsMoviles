@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDatabase } from '../hooks/useDatabase';
 import { ServicioFeriadosChile } from '../services/ServicioFeriadosChile';
 
@@ -20,6 +21,19 @@ const OpcionesSeleccion = ({ opciones, valorActual, onChange }: { opciones: stri
     </View>
 );
 
+const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const formatTime = (date: Date) => {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
+
 export default function PantallaFormularioCita() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
@@ -32,8 +46,24 @@ export default function PantallaFormularioCita() {
     const [establecimiento, setEstablecimiento] = useState('');
     const [tipoAtencion, setTipoAtencion] = useState('pública');
     const [estado, setEstado] = useState('pendiente');
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
 
     const esEdicion = !!id;
+
+    const onDateChange = (event: any, selectedDate?: Date) => {
+        setShowDatePicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setFecha(formatDate(selectedDate));
+        }
+    };
+
+    const onTimeChange = (event: any, selectedDate?: Date) => {
+        setShowTimePicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setHora(formatTime(selectedDate));
+        }
+    };
 
     useEffect(() => {
         if (esEdicion && db) {
@@ -116,10 +146,46 @@ export default function PantallaFormularioCita() {
             />
 
             <Text style={styles.label}>Fecha (YYYY-MM-DD)</Text>
-            <TextInput style={styles.input} value={fecha} onChangeText={setFecha} placeholder="2026-09-18" />
+            <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
+                <Text style={fecha ? styles.dateText : styles.placeholderText}>
+                    {fecha || 'Seleccionar fecha'}
+                </Text>
+            </TouchableOpacity>
+
+            {showDatePicker && (
+                <DateTimePicker
+                    value={fecha ? new Date(fecha + 'T00:00:00') : new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={onDateChange}
+                />
+            )}
 
             <Text style={styles.label}>Hora (HH:MM)</Text>
-            <TextInput style={styles.input} value={hora} onChangeText={setHora} placeholder="10:00" />
+            <TouchableOpacity style={styles.input} onPress={() => setShowTimePicker(true)}>
+                <Text style={hora ? styles.dateText : styles.placeholderText}>
+                    {hora || 'Seleccionar hora'}
+                </Text>
+            </TouchableOpacity>
+
+            {showTimePicker && (
+                <DateTimePicker
+                    value={(() => {
+                        if (hora) {
+                            const [h, m] = hora.split(':');
+                            const d = new Date();
+                            d.setHours(Number(h));
+                            d.setMinutes(Number(m));
+                            return d;
+                        }
+                        return new Date();
+                    })()}
+                    mode="time"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onTimeChange}
+                />
+            )}
 
             <Text style={styles.label}>Establecimiento de Salud</Text>
             <TextInput style={styles.input} value={establecimiento} onChangeText={setEstablecimiento} />
@@ -211,6 +277,16 @@ const styles = StyleSheet.create({
     btnSaveText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: 16
+    },
+    dateText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#212121',
+        fontSize: 16
+    },
+    placeholderText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#888',
         fontSize: 16
     }
 });

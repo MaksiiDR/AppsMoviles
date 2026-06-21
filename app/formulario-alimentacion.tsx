@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useDatabase } from '../hooks/useDatabase';
+
+const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const formatTime = (date: Date) => {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
 
 export default function PantallaFormularioAlimentacion() {
     const { db, obtenerAlimentacionPorId, guardarAlimentacion } = useDatabase();
@@ -18,6 +32,22 @@ export default function PantallaFormularioAlimentacion() {
     const [tipoDieta, setTipoDieta] = useState('');
     const [estado, setEstado] = useState('');
     const [observaciones, setObservaciones] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+
+    const onDateChange = (event: any, selectedDate?: Date) => {
+        setShowDatePicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setFecha(formatDate(selectedDate));
+        }
+    };
+
+    const onTimeChange = (event: any, selectedDate?: Date) => {
+        setShowTimePicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setHora(formatTime(selectedDate));
+        }
+    };
 
     useEffect(() => {
         if (!isEdit) {
@@ -72,7 +102,7 @@ export default function PantallaFormularioAlimentacion() {
         }
 
         const exito = await guardarAlimentacion({
-            ficha_id: 1, // Global patient
+            ficha_id: '1', // Global patient
             fecha,
             hora,
             tipoComida,
@@ -114,23 +144,49 @@ export default function PantallaFormularioAlimentacion() {
             <View style={styles.row}>
                 <View style={styles.flex1}>
                     <Text style={styles.label}>Fecha (YYYY-MM-DD)</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="2026-01-01" 
-                        value={fecha} 
-                        onChangeText={setFecha} 
-                    />
+                    <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
+                        <Text style={fecha ? styles.dateText : styles.placeholderText}>
+                            {fecha || 'Seleccionar'}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.spacing} />
                 <View style={styles.flex1}>
                     <Text style={styles.label}>Hora (HH:MM)</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="12:00" 
-                        value={hora} 
-                        onChangeText={setHora} 
-                    />
+                    <TouchableOpacity style={styles.input} onPress={() => setShowTimePicker(true)}>
+                        <Text style={hora ? styles.dateText : styles.placeholderText}>
+                            {hora || 'Seleccionar'}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
+
+                {showDatePicker && (
+                    <DateTimePicker
+                        value={fecha ? new Date(fecha + 'T00:00:00') : new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onDateChange}
+                    />
+                )}
+
+                {showTimePicker && (
+                    <DateTimePicker
+                        value={(() => {
+                            if (hora) {
+                                const [h, m] = hora.split(':');
+                                const d = new Date();
+                                d.setHours(Number(h));
+                                d.setMinutes(Number(m));
+                                return d;
+                            }
+                            return new Date();
+                        })()}
+                        mode="time"
+                        is24Hour={true}
+                        display="default"
+                        onChange={onTimeChange}
+                    />
+                )}
             </View>
 
             <Text style={styles.sectionTitle}>Tipo de Comida *</Text>
@@ -279,5 +335,15 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 16,
         fontWeight: 'bold'
+    },
+    dateText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#333',
+        fontSize: 15
+    },
+    placeholderText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#888',
+        fontSize: 15
     }
 });

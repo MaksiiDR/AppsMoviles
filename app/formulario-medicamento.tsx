@@ -57,7 +57,7 @@ export default function PantallaFormularioMedicamento() {
         }
 
         const exito = await guardarMedicamento({
-            ficha_id: 1, // Global patient
+            ficha_id: '1', // Global patient
             nombreComercial,
             principioActivo,
             viaAdministracion,

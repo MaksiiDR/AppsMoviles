@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface Props {
     onFilter: (fechaInicio: string, fechaFin: string, estado: string) => void;
 }
 
+const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 export default function ComponenteFiltroCitas({ onFilter }: Props) {
     const [fechaInicio, setFechaInicio] = useState('');
     const [fechaFin, setFechaFin] = useState('');
     const [estado, setEstado] = useState('todos');
+    const [showInicioPicker, setShowInicioPicker] = useState(false);
+    const [showFinPicker, setShowFinPicker] = useState(false);
 
     const aplicarFiltro = () => {
         onFilter(fechaInicio, fechaFin, estado);
@@ -21,23 +31,54 @@ export default function ComponenteFiltroCitas({ onFilter }: Props) {
         onFilter('', '', 'todos');
     };
 
+    const onInicioChange = (event: any, selectedDate?: Date) => {
+        setShowInicioPicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setFechaInicio(formatDate(selectedDate));
+        }
+    };
+
+    const onFinChange = (event: any, selectedDate?: Date) => {
+        setShowFinPicker(Platform.OS === 'ios');
+        if (selectedDate) {
+            setFechaFin(formatDate(selectedDate));
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Filtros</Text>
 
             <View style={styles.row}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Desde YYYY-MM-DD"
-                    value={fechaInicio}
-                    onChangeText={setFechaInicio}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Hasta YYYY-MM-DD"
-                    value={fechaFin}
-                    onChangeText={setFechaFin}
-                />
+                <TouchableOpacity style={styles.dateButton} onPress={() => setShowInicioPicker(true)}>
+                    <Text style={fechaInicio ? styles.dateText : styles.placeholderText}>
+                        {fechaInicio || 'Desde'}
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.dateButton} onPress={() => setShowFinPicker(true)}>
+                    <Text style={fechaFin ? styles.dateText : styles.placeholderText}>
+                        {fechaFin || 'Hasta'}
+                    </Text>
+                </TouchableOpacity>
+
+                {showInicioPicker && (
+                    <DateTimePicker
+                        value={fechaInicio ? new Date(fechaInicio + 'T00:00:00') : new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onInicioChange}
+                    />
+                )}
+
+                {showFinPicker && (
+                    <DateTimePicker
+                        value={fechaFin ? new Date(fechaFin + 'T00:00:00') : new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onFinChange}
+                    />
+                )}
             </View>
 
             <View style={styles.row}>
@@ -146,5 +187,25 @@ const styles = StyleSheet.create({
     fontFamily: 'SourceSans3_600SemiBold',
         color: '#fff',
         fontWeight: 'bold'
+    },
+    dateButton: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        backgroundColor: '#fff',
+        padding: 8,
+        borderRadius: 4,
+        justifyContent: 'center',
+        minHeight: 38
+    },
+    dateText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#212121',
+        fontSize: 14
+    },
+    placeholderText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#888',
+        fontSize: 14
     }
 });

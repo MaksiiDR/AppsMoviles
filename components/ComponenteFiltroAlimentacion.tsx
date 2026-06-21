@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface Props {
     onFiltrar: (estado: string, tipoComida: string, fechaInicio: string, fechaFin: string) => void;
 }
+
+const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
 export default function ComponenteFiltroAlimentacion({ onFiltrar }: Props) {
     const estados = ['Todos', 'Consumido', 'Parcial', 'No consumido'];
@@ -13,6 +21,8 @@ export default function ComponenteFiltroAlimentacion({ onFiltrar }: Props) {
     const [tipoActual, setTipoActual] = useState('Todas');
     const [fechaInicio, setFechaInicio] = useState('');
     const [fechaFin, setFechaFin] = useState('');
+    const [showInicioPicker, setShowInicioPicker] = useState(false);
+    const [showFinPicker, setShowFinPicker] = useState(false);
 
     const applyFilters = (estado: string, tipo: string, fInicio: string, fFin: string) => {
         onFiltrar(estado, tipo, fInicio, fFin);
@@ -28,14 +38,18 @@ export default function ComponenteFiltroAlimentacion({ onFiltrar }: Props) {
         applyFilters(estadoActual, tipo, fechaInicio, fechaFin);
     };
 
-    const handleFechaInicioChange = (text: string) => {
-        setFechaInicio(text);
-        applyFilters(estadoActual, tipoActual, text, fechaFin);
+    const onInicioChange = (event: any, selectedDate?: Date) => {
+        setShowInicioPicker(Platform.OS === 'ios');
+        const nextDate = selectedDate ? formatDate(selectedDate) : '';
+        setFechaInicio(nextDate);
+        applyFilters(estadoActual, tipoActual, nextDate, fechaFin);
     };
 
-    const handleFechaFinChange = (text: string) => {
-        setFechaFin(text);
-        applyFilters(estadoActual, tipoActual, fechaInicio, text);
+    const onFinChange = (event: any, selectedDate?: Date) => {
+        setShowFinPicker(Platform.OS === 'ios');
+        const nextDate = selectedDate ? formatDate(selectedDate) : '';
+        setFechaFin(nextDate);
+        applyFilters(estadoActual, tipoActual, fechaInicio, nextDate);
     };
 
     return (
@@ -43,22 +57,38 @@ export default function ComponenteFiltroAlimentacion({ onFiltrar }: Props) {
             <View style={styles.fechasContainer}>
                 <View style={styles.inputGroup}>
                     <Text style={styles.labelSmall}>Desde (YYYY-MM-DD)</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="2026-01-01" 
-                        value={fechaInicio} 
-                        onChangeText={handleFechaInicioChange} 
-                    />
+                    <TouchableOpacity style={styles.dateButton} onPress={() => setShowInicioPicker(true)}>
+                        <Text style={fechaInicio ? styles.dateText : styles.placeholderText}>
+                            {fechaInicio || 'Seleccionar'}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.inputGroup}>
                     <Text style={styles.labelSmall}>Hasta (YYYY-MM-DD)</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder="2026-12-31" 
-                        value={fechaFin} 
-                        onChangeText={handleFechaFinChange} 
-                    />
+                    <TouchableOpacity style={styles.dateButton} onPress={() => setShowFinPicker(true)}>
+                        <Text style={fechaFin ? styles.dateText : styles.placeholderText}>
+                            {fechaFin || 'Seleccionar'}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
+
+                {showInicioPicker && (
+                    <DateTimePicker
+                        value={fechaInicio ? new Date(fechaInicio + 'T00:00:00') : new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onInicioChange}
+                    />
+                )}
+
+                {showFinPicker && (
+                    <DateTimePicker
+                        value={fechaFin ? new Date(fechaFin + 'T00:00:00') : new Date()}
+                        mode="date"
+                        display="default"
+                        onChange={onFinChange}
+                    />
+                )}
             </View>
 
             <Text style={styles.label}>Filtrar por Estado:</Text>
@@ -146,6 +176,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 6,
         backgroundColor: '#FAFAFA'
+    },
+    dateButton: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        backgroundColor: '#FAFAFA',
+        justifyContent: 'center',
+        minHeight: 38
+    },
+    dateText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#333',
+        fontSize: 14
+    },
+    placeholderText: {
+        fontFamily: 'SourceSans3_400Regular',
+        color: '#888',
+        fontSize: 14
     },
     scroll: {
         paddingHorizontal: 10

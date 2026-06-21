@@ -474,7 +474,7 @@ export function useDatabase() {
             
             // Si no pasaron ficha_id, intentamos buscar la primera ficha
             let fichaIdToUse = medicamento.ficha_id;
-            if (!fichaIdToUse || fichaIdToUse === '1') {
+            if (!fichaIdToUse || String(fichaIdToUse) === '1') {
                 const f = await obtenerFicha();
                 if (f) fichaIdToUse = f.id;
                 else return false;
@@ -562,7 +562,7 @@ export function useDatabase() {
         if (!db) return false;
         try {
             let fichaIdToUse = alimentacion.ficha_id;
-            if (!fichaIdToUse || fichaIdToUse === '1') {
+            if (!fichaIdToUse || String(fichaIdToUse) === '1') {
                 const f = await obtenerFicha();
                 if (f) fichaIdToUse = f.id;
                 else return false;
