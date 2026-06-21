@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useDatabase } from '../hooks/useDatabase';
-import { validarRUT } from '../utils/validadorRut';
+import { validarRUT, formatRUT } from '../utils/validadorRut';
 
 export default function PantallaFormularioFicha() {
     const { db, obtenerFicha, guardarFicha } = useDatabase();
@@ -97,7 +97,7 @@ export default function PantallaFormularioFicha() {
             <Text style={styles.sectionTitle}>Datos Personales Básicos</Text>
             <TextInput style={styles.input} placeholder="Nombre Completo *" value={nombreCompleto} onChangeText={setNombreCompleto} />
             <TextInput style={styles.input} placeholder="Edad *" value={edad} onChangeText={setEdad} keyboardType="numeric" />
-            <TextInput style={styles.input} placeholder="RUT *" value={rut} onChangeText={setRut} />
+            <TextInput style={styles.input} placeholder="RUT *" value={rut} onChangeText={(val) => setRut(formatRUT(val))} />
             
             <Text style={styles.sectionTitle}>Información Médica</Text>
             <TextInput style={styles.input} placeholder="Condición Actual *" value={condicion} onChangeText={setCondicion} />

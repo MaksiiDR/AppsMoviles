@@ -177,7 +177,7 @@ const insertarDatosDePrueba = async (database: SQLite.SQLiteDatabase) => {
             
             await database.runAsync(
                 'INSERT INTO ficha_adulto_mayor (id, nombreCompleto, edad, rut, condicion, enfermedadesCronicas, antecedentesQuirurgicos, alergiasConocidas, medicoTratante, contactosEmergencia, ultimaActualizacion, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                fichaId, 'María Silva', 78, '5.555.555-5', 'Dependencia Leve', 'Hipertensión', 'Apendicectomía', 'Penicilina', 'Dr. Juan Pérez', 'Hijo: +56 9 1234 5678', today, getIsoTime()
+                fichaId, 'María Silva', 78, '5.555.555-9', 'Dependencia Leve', 'Hipertensión', 'Apendicectomía', 'Penicilina', 'Dr. Juan Pérez', 'Hijo: +56 9 1234 5678', today, getIsoTime()
             );
             
             await database.runAsync(

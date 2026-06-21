@@ -31,3 +31,24 @@ export function validarRUT(rut: string): boolean {
     // Comparar el DV calculado con el proporcionado
     return dv === expectedDv;
 }
+
+export function formatRUT(rut: string): string {
+    if (!rut) return '';
+    const clean = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (clean.length <= 1) return clean;
+    
+    const dv = clean.slice(-1);
+    const body = clean.slice(0, -1);
+    
+    let formattedBody = '';
+    const len = body.length;
+    for (let i = 0; i < len; i++) {
+        formattedBody += body[i];
+        const remaining = len - i - 1;
+        if (remaining > 0 && remaining % 3 === 0) {
+            formattedBody += '.';
+        }
+    }
+    
+    return `${formattedBody}-${dv}`;
+}
